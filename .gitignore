@@ -6,3 +6,5 @@ meta_data
 lightning_logs/*
 runs/*
 meta_data.zip
+dataset.zip
+inference_dataset.zip
