@@ -10,7 +10,9 @@ import meta_data.train_utils.train_sub_od as od
 def exec_train():
     logging.info('[hunmin log] the start line of the function [exec_train]')
     logging.info('[hunmin log] T3QAI_TRAIN_DATA_PATH : {}'.format(T3QAI_TRAIN_DATA_PATH))
+    # Object Detection Model의 학습을 시작하는 메소드.
     od.exec_train()
+    # License Plate Model의 학습을 시작하는 메소드.
     lp.exec_train()
     logging.info('[hunmin log] the end line of the function [exec_train]')
     
