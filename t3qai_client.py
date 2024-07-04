@@ -3,13 +3,15 @@ import shutil
 import tempfile
 import base64
 import pandas as pd
-import logging
+from PIL import Image
 import ipywidgets
 from ipywidgets import FileUpload
 from IPython.display import FileLink
-from PIL import Image
 
-ROOT = os.path.dirname(__file__)
+import logging
+logger = logging.getLogger()
+logger.setLevel('INFO')
+
 
 # t3qai_client 클래스: t3qai_client 객체
 class t3qai_client:
@@ -30,15 +32,18 @@ class t3qai_client:
         params = {"epoch" : epoch, 'batch_size' : batch_size}
         return { **params }
 
+
 class PM:
     def __init__(self):
-        self.source_path = f'{ROOT}'
-        self.target_path = f'{ROOT}/meta_data'
+        self.source_path = './'
+        self.target_path = './meta_data'
+
 
 class UploadFile:
     def __init__(self, file, filename):
         self.file = file
         self.filename = filename
+
 
 def DownloadFile(file_name, file_obj = None, file_path = None):
     file_route = './meta_data/DownloadFiles'
@@ -56,17 +61,18 @@ def DownloadFile(file_name, file_obj = None, file_path = None):
             f.write(binary_file)
     elif(file_path != None):
         shutil.copyfile(file_path, file_dir)
-
+        
     return FileLink(file_dir)
 
 pm = PM()
 
-T3QAI_TRAIN_OUTPUT_PATH = f'{ROOT}/meta_data'
-T3QAI_TRAIN_MODEL_PATH =  f'{ROOT}/meta_data'
-T3QAI_TRAIN_DATA_PATH =  f'{ROOT}/meta_data'
-T3QAI_TEST_DATA_PATH =  f'{ROOT}/meta_data'
-T3QAI_MODULE_PATH =  f'{ROOT}/meta_data'
-T3QAI_INIT_MODEL_PATH =  f'{ROOT}/meta_data'
+T3QAI_TRAIN_OUTPUT_PATH = './meta_data'
+T3QAI_TRAIN_MODEL_PATH = './meta_data'
+T3QAI_TRAIN_DATA_PATH = './meta_data'
+T3QAI_TEST_DATA_PATH = './meta_data'
+T3QAI_MODULE_PATH = './meta_data'
+T3QAI_INIT_MODEL_PATH = './meta_data'
+
 
 # t3qai_client 객체
 tc = t3qai_client()

@@ -2,6 +2,7 @@ import os
 import zipfile
 import logging
 
+
 def exec_process(pm):
     logging.info('[hunmin log] the start line of the function [exec_process]')
 
@@ -19,6 +20,7 @@ def exec_process(pm):
     list_files_directories(pm.target_path)
 
     logging.info('[hunmin log] the finish line of the function [exec_process]')
+
 
 # 저장 파일 확인
 def list_files_directories(path):

@@ -6,10 +6,13 @@ import logging
 logger = logging.getLogger()
 logger.setLevel('INFO')
 
+
 # 모델 초기화
 def init_model():
     logging.info('[hunmin log] the start line of the function [init_model]')
+
     models_info_dict = exec_init_model()
+    
     logging.info('[hunmin log] the end line of the function [init_model]')
     return { **models_info_dict }
 
@@ -26,8 +29,10 @@ def inference_dataframe(df, models_info_dict):
         'area': area_output if area_output else {},
         'license_number': license_number if license_number else ""
     }
+    
     logging.info(f'[hunmin log] the end line of the function [inference_dataframe].')
     return response_data
+
 
 def pil_image_to_base64(image):
     buffered = io.BytesIO()

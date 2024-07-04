@@ -7,14 +7,17 @@ import meta_data.inference_utils.inference_service_sub_lp as lp_inference
 import meta_data.postprocess_utils.area as area
 from PIL import Image
 
+
 def exec_init_model():
     logging.info('[hunmin log] the start line of the function [exec_init_model]')
+
     # Object Detection Model을 로드하고 초기화하는 메서드
     od_params = od_inference.exec_init_model()
     # Segmentation Model을 로드하고 초기화하는 메서드
     seg_params = seg_inference.exec_init_model()
     # License Plate Model을 로드하고 초기화하는 메서드
     lp_params = lp_inference.exec_init_model()
+    
     logging.info('[hunmin log] the end line of the function [exec_init_model]')
     return {"od_params":{ **od_params },"seg_params":{ **seg_params },"lp_params":{ **lp_params }}
 
