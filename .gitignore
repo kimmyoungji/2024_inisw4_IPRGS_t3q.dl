@@ -2,3 +2,6 @@
 meta_data
 ./meta_data/*
 /meta_data
+.venv
+lightning_logs/*
+runs/*
