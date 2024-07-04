@@ -44,7 +44,8 @@ def exec_inference_dataframe(df, model_info_dict):
         img_base64 = df.iloc[0, 0]
         decoded_img = base64.b64decode(img_base64)
         image_bytes = io.BytesIO(decoded_img)
-        image = Image.open(image_bytes).convert('RGB')
+        image = Image.open(image_bytes)
+        logging.info(type(image))
         input = processor(images=image, return_tensors='pt')
     except Exception as e:
         logging.exception(e)

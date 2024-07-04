@@ -1,3 +1,5 @@
+import base64
+import io
 import logging, os
 from ultralytics import YOLO
 from t3qai_client import T3QAI_INIT_MODEL_PATH, T3QAI_TRAIN_MODEL_PATH
@@ -6,9 +8,14 @@ import inference_service_sub_od as od_inference
 import inference_service_sub_seg as seg_inference
 import inference_service_sub_lp as lp_inference
 import inference_utils.area as area
+from PIL import Image
 
 
 def exec_inference_dataframe(df, models_info_dict):
+
+    base64_string = df.iloc[0,0]
+    decoded_image = base64.b64decode(base64_string)
+    original_image = Image.open(io.BytesIO(decoded_image))
 
     # SEG MODEL
     try:
@@ -17,10 +24,10 @@ def exec_inference_dataframe(df, models_info_dict):
         logging.info(f'seg_model inference result: { {"seg_image": type(seg_image), "areas": areas, "car_bbox":car_bbox, "seg_result": seg_result, "seg_error":seg_error}}')
 
         if seg_error:
-            return None, None, None, None, None, seg_error
+            return original_image, None, None, None, None, seg_error
         
     except Exception as e:
-        return None, None, None, None, None, str(e) + " (in SEG)"
+        return original_image, None, None, None, None, str(e) + " (in SEG)"
 
     # AREA MODEL
     try:
@@ -54,4 +61,3 @@ def exec_inference_dataframe(df, models_info_dict):
 
     # result
     return final_image, seg_result + od_result, area_output, license_number, full_od_result, None
-    

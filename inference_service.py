@@ -1,7 +1,6 @@
 import base64
 import io
-from PIL import Image
-from io import BytesIO
+from PIL import Image 
 
 import pandas as pd
 from inference_service_sub import exec_inference_dataframe
@@ -59,11 +58,12 @@ def main():
     models_info_dict = init_model()
 
     # 테스트 데이터셋 준비
-    with open('./meta_data/dataset/test/00045.jpeg', 'rb') as file:
-        data = file.read()
-    encoded_data = base64.b64encode(data)
-    data = [[encoded_data]]
-    df = pd.DataFrame(data)
+    image = Image.open('./meta_data/dataset/test/00001.jpeg')
+    base64_image = pil_image_to_base64(image)
+    with open('./temp_base64_image', '+w' ) as file:
+        file.write(base64_image) 
+    image_data = [[base64_image]]
+    df = pd.DataFrame(image_data)
 
     # 모델 추론 요청
     result = inference_dataframe(df, models_info_dict)
@@ -73,11 +73,11 @@ def main():
 
     # Convert bytes data to an image
     base64_string = result['image']
-    image_data = base64.b64decode(base64_string)
-    image = Image.open(BytesIO(image_data))
+    decoded_image = base64.b64decode(base64_string)
+    result_image = Image.open(io.BytesIO(decoded_image))
 
     # Save the image as a PNG file
-    image.save('final_image.png')
+    result_image.save('final_image.png')
 
     logging.info('모델 추론 결과')
     logging.info(f'msg: {result["msg"]}')

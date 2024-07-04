@@ -5,3 +5,4 @@ meta_data
 .venv
 lightning_logs/*
 runs/*
+meta_data.zip
