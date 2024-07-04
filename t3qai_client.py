@@ -8,6 +8,8 @@ import ipywidgets
 from ipywidgets import FileUpload
 from IPython.display import FileLink
 
+ROOT = os.path.dirname(__file__)
+
 # t3qai_client 클래스: t3qai_client 객체
 class t3qai_client:
     def train_start(self):
@@ -29,8 +31,8 @@ class t3qai_client:
 
 class PM:
     def __init__(self):
-        self.source_path = './'
-        self.target_path = './meta_data'
+        self.source_path = f'{ROOT}'
+        self.target_path = f'{ROOT}/meta_data'
 
 class UploadFile:
     def __init__(self, file, filename):
@@ -58,12 +60,12 @@ def DownloadFile(file_name, file_obj = None, file_path = None):
 
 pm = PM()
 
-T3QAI_TRAIN_OUTPUT_PATH = './meta_data'
-T3QAI_TRAIN_MODEL_PATH = './meta_data'
-T3QAI_TRAIN_DATA_PATH = './meta_data'
-T3QAI_TEST_DATA_PATH = './meta_data'
-T3QAI_MODULE_PATH = './meta_data'
-T3QAI_INIT_MODEL_PATH = './meta_data'
+T3QAI_TRAIN_OUTPUT_PATH = f'{ROOT}/meta_data'
+T3QAI_TRAIN_MODEL_PATH =  f'{ROOT}/meta_data'
+T3QAI_TRAIN_DATA_PATH =  f'{ROOT}/meta_data'
+T3QAI_TEST_DATA_PATH =  f'{ROOT}/meta_data'
+T3QAI_MODULE_PATH =  f'{ROOT}/meta_data'
+T3QAI_INIT_MODEL_PATH =  f'{ROOT}/meta_data'
 
 # t3qai_client 객체
 tc = t3qai_client()

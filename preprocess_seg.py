@@ -1,4 +1,4 @@
-from image_classification_preprocess_sub import exec_process
+from preprocess_sub_seg import exec_process
 
 
 import logging

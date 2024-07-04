@@ -1,7 +1,7 @@
 import logging
 import train
 import t3qai_client as tc
-import train_sub_np as np
+import train_sub_lp as np
 import train_sub_od as od
 
 
@@ -19,8 +19,9 @@ def main():
     a.train_finish(result, result_msg)
 
 def train():
-    np.exec_train()
+    logging.info('[hunmin log] the start line of the function [train]')
     od.exec_train()
+    np.exec_train()
     logging.info('[hunmin log] the end line of the function [train]')
 
 if __name__ == '__main__':

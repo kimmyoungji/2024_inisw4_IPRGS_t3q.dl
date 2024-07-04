@@ -3,8 +3,6 @@ from PIL import Image, ImageDraw
 import numpy as np
 import io
 import cv2
-import requests
-from dotenv import load_dotenv
 import os
 """
 city scapes dataset
@@ -31,8 +29,8 @@ city scapes dataset
 def calculate_pixel_area(mask_data):
     areas = []
     
-    # print("SEG TEST")
     for item in mask_data:
+        # print("SEG TEST")
         # print(item)
         mask_bytes = base64.b64decode(item['mask'])
         mask_image = Image.open(io.BytesIO(mask_bytes))
@@ -44,7 +42,6 @@ def calculate_pixel_area(mask_data):
 
 def overlay_multiple_masks_on_image(mask_data, indices, original_image, colors, alpha=0.5):
     # Load the original image
-    # original_image = Image.open(original_image_path).convert("RGBA")
     original_image = original_image.convert("RGBA")
 
     # Create a blank RGBA image for the mask
@@ -110,22 +107,6 @@ def get_bounding_box_from_mask(base64_str):
     
     return x_min, y_min, x_max, y_max
 
-################################################
-# for query
-# def query(filename):
-#     "query to huggingface inference api"
-
-#     load_dotenv(dotenv_path=".env")
-#     API_URL = os.getenv('API_URL_SEG')
-#     HF_token = os.getenv('HF_token')
-#     headers = {"Authorization": f"Bearer {HF_token}"}
-
-#     with open(filename, "rb") as f:
-#         data = f.read()
-#     response = requests.post(API_URL, headers=headers, data=data)
-
-#     return response.json()
-
 
 def visualize_bbox(input_image, car_bbox):
     output_image = np.array(input_image.copy())
@@ -139,21 +120,16 @@ def visualize_bbox(input_image, car_bbox):
 
 ################################################
 # main process
-def seg_process(img, output):
-    # output = query(image_path)
+def process(original_image, output):
 
-    # if 'error' in output:
-    #     return None, None, None, None, output['error']
-
-    if not output:
-        return None, None, None, None
+    if 'error' in output:
+        return None, None, None, None, output['error']
 
     areas = calculate_pixel_area(output)
     car_index = []
     road_index = None
     sidewalk_index = None
 
-    print('calculate_pixel_area: 차량이 차지하는 픽셀 계산')
     for i in range(len(areas)):
         label = areas[i]['label']
         print(f"{i}. Label: {label}, Pixels: {areas[i]['pixels']}")
@@ -193,10 +169,10 @@ def seg_process(img, output):
 
     if indices:
         output_image = overlay_multiple_masks_on_image(mask_data=output,
-                                                       indices=indices,
-                                                       original_image=img,
-                                                       colors=colors)
-    
+                                                    indices=indices,
+                                                    original_image=original_image,
+                                                    colors=colors)
+
     else:
         return None, None, None, seg_label, "can't detect car/road/sidewalk (in SEG)"
     
@@ -205,5 +181,7 @@ def seg_process(img, output):
 
     car_bbox = get_bounding_box_from_mask(areas[car_index[0]]['mask'])
     output_image = visualize_bbox(output_image, car_bbox)
+
+    
 
     return output_image, areas, car_bbox, seg_label, None
