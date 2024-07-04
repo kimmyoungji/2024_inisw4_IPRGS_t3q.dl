@@ -7,6 +7,7 @@ import logging
 import ipywidgets
 from ipywidgets import FileUpload
 from IPython.display import FileLink
+from PIL import Image
 
 ROOT = os.path.dirname(__file__)
 
@@ -85,11 +86,13 @@ batch_id = 0
 import io
 import pandas as pd
 
-# base64 encoded image - apple.jpg
-data = [['iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAIAAAD9b0jDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACySURBVEhL7ZLRDoAgCEWt//9nc8EIEepStvXQeWkyPEKw1FrLbFb+TuWXzichXXb4cAokJR0tH+JFK21G8V6CSqlApMxGelBIsVBHeOOEzZYGdRzpussfL7eIazHPa0wrx0GMdBSiuMbkdINyb5og0gRL3dTbcPtNOpYZveQ2pA1n0hTakF5+hA9Lzd87pNFYLhkvsvT2lMhorndluxkRUuCYbzcp9ROi55+up8sLK1XKBj1wbx3DelAOAAAAAElFTkSuQmCC']]
-df = pd.DataFrame(data)
-print('df: ', df)
-print('df.dtypes:', df.dtypes)
+# base64 encoded image - 00001.jpeg 
+image = Image.open('./meta_data/dataset/test/00001.jpeg')
+buffered = io.BytesIO()
+image.save(buffered, format="PNG")
+base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
+image_data = [[base64_image]]
+df = pd.DataFrame(image_data)
 
 # inference_file 함수 추론
 files = []

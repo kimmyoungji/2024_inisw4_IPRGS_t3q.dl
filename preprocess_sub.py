@@ -1,9 +1,6 @@
 import os
-import numpy as np
-import pandas as pd
 import zipfile
 import logging
-
 
 def exec_process(pm):
     logging.info('[hunmin log] the start line of the function [exec_process]')
@@ -13,9 +10,9 @@ def exec_process(pm):
     
     # pm.source_path의 dataset.zip 파일을
     # pm.target_path 경로에 압축해제
-    my_zip_path = os.path.join(pm.source_path,'dataset.zip')
+    my_zip_path = os.path.join(pm.source_path,'meta_data.zip')
     extract_zip_file = zipfile.ZipFile(my_zip_path)
-    extract_zip_file.extractall(pm.target_path)
+    extract_zip_file.extractall(pm.source_path)
     extract_zip_file.close()
     
     # 저장 파일 확인
