@@ -1,0 +1,405 @@
+# 인공지능 통합플랫폼(T3Q.ai) 프로세스를 이해하고 인공지능 쉽게 하기
+
+
+0. 빅데이터/인공지능 통합 플랫폼 [ T3Q.ai ]
+
+* 빅데이터 플랫폼 [ T3Q.cep ]
+* 인공지능 플랫폼 [ T3Q.dl ]
+* 빅데이터/인공지능 통합 플랫폼 [ T3Q.ai (T3Q.cep + T3Q.dl) ]
+
+
+1. 머신러닝(Machine Learning)과 딥러닝(Deep Learning) 프로그래밍 패턴
+
+(1) 데이터셋 불러오기(Dataset Loading)
+(2) 데이터 전처리(Data Preprocessing)
+   - 데이터 정규화(Normalization)
+   - 학습과 테스트 데이터 분할(Train/Test Data Split) 등
+(3) 학습 모델 구성(Train Model Build)
+(4) 학습(Model Training)
+(5) 학습 모델 성능 검증(Model Performance Validation)
+(6) 학습 모델 저장(배포) 하기(Model Save)
+(7) 추론 데이터 전처리((Data Preprocessing)
+(8) 추론(Inference) 또는 예측(Prediction) 
+(9) 추론 결과 데이터 후처리(Data Postprocessing) 
+
+
+2. 빅데이터/인공지능 통합 플랫폼[ T3Q.ai ]에서 딥러닝 프로그래밍 하고 인공지능 서비스 실시간 운용하기
+ - 7개의 함수로 딥러닝 프로그래밍 하고 인공지능 서비스 실시간 운용하기
+
+(1) process_for_train(pm) 함수
+ - 데이터셋 준비(Dataset Setup) 
+   에 필요한 코드 작성
+
+(2) init_svc(im, rule) 함수
+ - 전처리 객체 불러오기
+   에 필요한 코드 작성(생략 가능)
+
+(3) transform(df, params, batch_id) 함수
+- 추론 데이터 전처리(Data Preprocessing)
+  에 필요한 코드 작성(생략 가능)
+
+(4) train() 함수 
+ - 데이터셋 불러오기(Dataset Loading)
+ - 데이터 전처리(Data Preprocessing)
+ - 학습 모델 구성(Train Model Build)
+ - 학습(Model Training)
+ - 학습 모델 성능 검증(Model Performance Validation)
+ - 전처리 객체 저장
+ - 학습 모델 저장(배포) 하기
+   에 필요한 코드 작성
+
+(5) init_model() 함수 
+ - 전처리 객체 불러오기
+ - 학습모델 객체 불러오기
+   에 필요한 코드 작성
+
+(6_a) inference_dataframe(df, model_info_dict) 함수
+ - df(pandas DataFrame) 입력에 대한 추론 처리 기능
+ - 추론시 입력 데이터에 대한 전처리(Data Preprocessing)
+ - 추론(Inference) 또는 예측(Prediction) 
+ - 추론 결과 데이터 후처리(Data Postprocessing) 
+
+(6_b) inference_file(files, model_info_dict) 함수
+ - files 입력에 대한 추론 처리 기능
+ - 추론시 입력 데이터에 대한 전처리(Data Preprocessing)
+ - 추론(Inference) 또는 예측(Prediction) 
+ - 추론 결과 데이터 후처리(Data Postprocessing) 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+3. 전처리 모듈 관리, 학습 알고리즘 관리 함수 설명
+
+1) [preprocess.py] 전처리모듈 관리 함수 
+
+def process_for_train(pm):
+    """
+    (1) 입력: pm
+      # pm.source_path: 학습플랫폼/데이터셋 관리 메뉴에서 저장한 데이터를 불러오는 경로
+      # pm.target_path: 처리 완료된 데이터를 저장하는 경로
+    (2) 출력: None
+    (3) 설명: 
+      # 데이터셋 관리 메뉴에서 저장한 데이터를 불러와서 필요한 처리를 수행
+      # 처리 완료된 데이터를 저장하는 기능, pm.target_path에 저장
+      # 실행환경 등록에서 General 선택: train() 함수의 T3QAI_TRAIN_DATA_PATH를 통해 데이터를 불러와서 전처리와 학습을 수행 
+    """
+
+def init_svc(im, rule):
+    """
+    (1) 입력: im, rule
+    (2) 출력: 전처리 객체를 딕셔너리(dictionary) 객체에 담아 리턴(return)
+    (3) 설명: 
+      # process_for_train(pm) 함수에서 저장한 전처리 객체와 데이터에 적용된 룰(rule)을 불러오는 기능
+      # 전처리 객체, 룰(rule) 불러오기 기능 없이 처리
+    """
+
+    return {}
+
+def transform(df, params, batch_id):
+    """
+    (1) 입력: df, params, batch_id
+      # df: 추론모델관리와 추론API관리, 실시간 추론을 통해 전달되는 추론 입력 데이터(dataframe 형태)
+      # params: init_svc(im, rule) 함수의 리턴(return) 값을 params 변수로 전달
+    (2) 출력: df
+    (3) 설명: 
+      # df(추론 입력 데이터)에 대한 전처리를 수행한 후 전처리 된 데이터를 inference_dataframe(df, model_info_dict) 함수의 
+      입력 df에 전달하는 기능
+      # df(추론 입력 데이터)를 전처리 없이 inference_dataframe(df, model_info_dict) 함수의 입력 df에 리턴(return)
+    """
+    
+    return df
+
+
+
+2-1) [train.py] 학습 알고리즘 관리 함수
+
+import t3qai_client as tc
+from t3qai_client import T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TRAIN_MODEL_PATH, T3QAI_TRAIN_DATA_PATH
+"""
+(1) 설명:
+  # t3qai_client : 플랫폼과의 연동을 위한 클라이언트 모듈
+  # T3QAI_TRAIN_DATA_PATH : pm.target_path에서 저장한 전처리 데이터 경로
+  # T3QAI_TRAIN_MODEL_PATH : 학습 모델 저장 경로
+  # T3QAI_TRAIN_OUTPUT_PATH : 학습 결과 출력파일 저장 경로
+"""
+      
+def train():
+    """
+    (1) 입력: None
+    (2) 출력: None
+    (3) 설명: 
+      # pm.target_path에 저장한 데이터를 T3QAI_TRAIN_DATA_PATH 에서 불러오기
+      # 데이터 전처리와 학습 모델을 구성하고 모델 학습을 수행
+      # 학습 모델의 성능을 검증하고 배포할 학습 모델을 저장
+      # 전처리 객체와 학습 모델 객체를 T3QAI_TRAIN_MODEL_PATH 에 저장
+      # 학습 결과를 파일(이미지, 텍스트 등) 형태로 T3QAI_TRAIN_OUTPUT_PATH 에 저장 
+    """
+
+2-2) [inference_service.py] 학습 알고리즘 관리 함수
+
+import t3qai_client as tc
+from t3qai_client import T3QAI_INIT_MODEL_PATH
+"""
+(1) 설명:
+  # T3QAI_INIT_MODEL_PATH : train() 함수에서 T3QAI_TRAIN_MODEL_PATH 에 저장한 전처리 객체와 
+                            학습 모델 객체 등을 추론 하기 위해 불러오는 경로
+"""
+
+
+def init_model():
+    """
+    (1) 입력: None
+    (2) 출력: 전처리 객체와 학습 모델 객체 등을 딕셔너리(dictionary) 객체에 담아 리턴(return)
+    (3) 설명: 
+      # T3QAI_TRAIN_MODEL_PATH에 저장한 전처리 객체와 학습 모델 객체 등을 불러오는 기능
+      # 전처리 객체와 학습 모델 객체 등을 딕셔너리(dictionary) 형태로 리턴(return)
+      # 리턴(return) 값을 inference_dataframe(df,model_info_dict), 
+      inference_file(files, model_info_dict) 함수의 입력 model_info_dict 변수로 전달
+    """
+    return { **params }
+
+def inference_dataframe(df, model_info_dict):
+    """
+    (1) 입력: df, model_info_dict
+      # df: transform(df, params, batch_id)함수의 리턴(return) 값으로 전달된 df, 
+      추론 입력 데이터(dataframe 형태)
+      # model_info_dict: init_model() 함수의 return 값을 model_info_dict 변수로 전달
+        ## 학습 모델 객체 사용 예시       model = model_info_dict.get('model') 또는 
+                                         	  model = model_info_dict['model']
+        ## 전처리(pca) 객체 사용 예시     pca = model_info_dict.get['pca'] 또는
+                                          	  pca = model_info_dict['pca']
+                                          
+    (2) 출력: 추론 결과 딕셔너리(dictionary) 형태 
+                result = {'inference': inference_result}
+
+                            
+    (3) 설명: 
+      # 전처리 객체를 사용하여 df(추론 입력 데이터)에 대한 전처리 수행
+      # 배포된 학습 모델(model)을 사용하여 df(추론 입력 데이터)에 대한 추론(예측)을 수행
+      # 추론 결과를 딕셔너리(dictionary)  형태로 리턴(return)
+    """
+    return { **result }
+
+def inference_file(files, model_info_dict):
+    """
+    (1) 입력: files, model_info_dict
+      # files: 추론 하고자 하는 파일 형태의 입력 
+      # model_info_dict: init_model() 함수의 return 값을 model_info_dict 변수로 전달
+        ## 학습 모델 객체 사용 예시       model = model_info_dict.get('model') 또는 
+                                          	  model = model_info_dict['model']
+        ## 전처리(pca) 객체 사용 예시     pca = model_info_dict.get['pca'] 또는
+                                          	  pca = model_info_dict['pca']
+        
+    (2) 출력: a. 추론 결과 딕셔너리(dictionary) 형태 
+                  result = {'inference': inference_result}
+              b. 추론 결과 DownloadFile 형태
+                  result = DownloadFile(file_path=resultfilepath, file_name=filename1)
+                  result = DownloadFile(file_obj=resultfileobj, file_name=filename2)
+              c. 추론 결과 DownloadFile의 list형태
+                  result = [DownloadFile(file_path=resultfilepath, file_name=filename), 
+                            DownloadFile(file_obj=resultfileobj, file_name=filename), ...]
+              
+    (3) 설명: 
+      # 전처리 객체를 사용하여 files(추론 입력 데이터)에 대한 전처리 수행
+      # 배포된 학습 모델(model)을 사용하여 files(추론 입력 데이터)에 추론(예측)을 수행
+      # 추론 결과를 a.딕셔너리(dictionary) 형태, b.DownloadFile 형태, c.DownloadFile의 list 형태로 리턴(return)
+    """
+    return result
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+4. 전처리 모듈 관리, 학습 알고리즘 관리 함수 설명(AI 훈민정음 프로젝트)
+
+
+1) [preprocess.py] 전처리모듈 관리 함수 
+
+import logging
+
+def process_for_train(pm):
+    """
+    (1) 입력: pm
+      # pm.source_path: 학습플랫폼/데이터셋 관리 메뉴에서 저장한 데이터를 불러오는 경로
+      # pm.target_path: 처리 완료된 데이터를 저장하는 경로
+    (2) 출력: None
+    (3) 설명: 
+      # 데이터셋 관리 메뉴에서 저장한 데이터를 불러와서 필요한 처리를 수행
+      # 처리 완료된 데이터를 저장하는 기능, pm.target_path에 저장
+      # 실행환경 등록에서 General 선택: train() 함수의 T3QAI_TRAIN_DATA_PATH를 통해 데이터를 불러와서 전처리와 학습을 수행 
+    """
+
+def init_svc(im, rule):
+    """
+    (1) 입력: im, rule
+    (2) 출력: 전처리 객체를 딕셔너리(dictionary) 객체에 담아 리턴(return)
+    (3) 설명: 
+      # process_for_train(pm) 함수에서 저장한 전처리 객체와 데이터에 적용된 룰(rule)을 불러오는 기능
+      # 전처리 객체, 룰(rule) 불러오기 기능 없이 처리
+    """
+
+    return {}
+
+def transform(df, params, batch_id):
+    """
+    (1) 입력: df, params, batch_id
+      # df: 추론모델관리와 추론API관리, 실시간 추론을 통해 전달되는 추론 입력 데이터(dataframe 형태)
+      # params: init_svc(im, rule) 함수의 리턴(return) 값을 params 변수로 전달
+    (2) 출력: df
+    (3) 설명: 
+      # df(추론 입력 데이터)에 대한 전처리를 수행한 후 전처리 된 데이터를 inference_dataframe(df, model_info_dict) 함수의 
+      입력 df에 전달하는 기능
+      # df(추론 입력 데이터)를 전처리 없이 inference_dataframe(df, model_info_dict) 함수의 입력 df에 리턴(return)
+    (4) 추가 설명: 
+      # 함수 구조는 원형대로 유지
+      # 함수의 정상적인 동작 체크를 위해 마지막 라인(the end line)에 로그 출력 수행     
+    """
+    
+    logging.info('[hunmin log] the end line of the function [transform]')
+
+    return df
+
+
+
+2-1) [train.py] 학습 알고리즘 관리 함수
+
+import t3qai_client as tc
+from t3qai_client import T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TRAIN_MODEL_PATH, T3QAI_TRAIN_DATA_PATH
+"""
+(1) 설명:
+  # t3qai_client : 플랫폼과의 연동을 위한 클라이언트 모듈
+  # T3QAI_TRAIN_DATA_PATH : pm.target_path에서 저장한 전처리 데이터 경로
+  # T3QAI_TRAIN_MODEL_PATH : 학습 모델 저장 경로
+  # T3QAI_TRAIN_OUTPUT_PATH : 학습 결과 출력파일 저장 경로
+"""
+
+import logging 
+    
+def train():
+    """
+    (1) 입력: None
+    (2) 출력: None
+    (3) 설명: 
+      # pm.target_path에 저장한 데이터를 T3QAI_TRAIN_DATA_PATH 에서 불러오기
+      # 데이터 전처리와 학습 모델을 구성하고 모델 학습을 수행
+      # 학습 모델의 성능을 검증하고 배포할 학습 모델을 저장
+      # 전처리 객체와 학습 모델 객체를 T3QAI_TRAIN_MODEL_PATH 에 저장
+      # 학습 결과를 파일(이미지, 텍스트 등) 형태로 T3QAI_TRAIN_OUTPUT_PATH 에 저장 
+    (4) 추가 설명: 
+      # 함수 구조는 원형대로 유지
+      # 실질적인 기능을 하는 함수를 서브모듈 함수(exec_train)로 정의하여 사용함
+      # 함수명                         서브함수명
+      # train()                      exec_train()
+      # 함수의 정상적인 동작 체크를 위해 마지막 라인(the end line)에 로그 출력 수행
+    """
+
+    exec_train()
+    
+    logging.info('[hunmin log] the end line of the function [train]')
+
+
+2-2) [inference_service.py] 학습 알고리즘 관리 함수
+
+import t3qai_client as tc
+from t3qai_client import T3QAI_INIT_MODEL_PATH
+"""
+(1) 설명:
+  # T3QAI_INIT_MODEL_PATH : train() 함수에서 T3QAI_TRAIN_MODEL_PATH 에 저장한 전처리 객체와 
+                            학습 모델 객체 등을 추론 하기 위해 불러오는 경로
+"""
+
+def init_model():
+    """
+    (1) 입력: None
+    (2) 출력: 전처리 객체와 학습 모델 객체 등을 딕셔너리(dictionary) 객체에 담아 리턴(return)
+    (3) 설명: 
+      # T3QAI_TRAIN_MODEL_PATH에 저장한 전처리 객체와 학습 모델 객체 등을 불러오는 기능
+      # 전처리 객체와 학습 모델 객체 등을 딕셔너리(dictionary) 형태로 리턴(return)
+      # 리턴(return) 값을 inference_dataframe(df,model_info_dict), 
+      inference_file(files, model_info_dict) 함수의 입력 model_info_dict 변수로 전달
+    (4) 추가 설명: 
+      # 함수 구조는 원형대로 유지
+      # 실질적인 기능을 하는 함수를 서브모듈 함수(exec_init_model)로 정의하여 사용함
+      # 함수명                            서브함수명
+      # init_model()                      exec_init_model()
+      # 함수의 정상적인 동작 체크를 위해 마지막 라인(the end line)에 로그 출력 수행      
+    """
+
+    params = exec_init_model()
+    
+    logging.info('[hunmin log] the end line of the function [init_model]')
+
+    return { **params }
+
+
+def inference_dataframe(df, model_info_dict):
+    """
+    (1) 입력: df, model_info_dict
+      # df: transform(df, params, batch_id)함수의 리턴(return) 값으로 전달된 df, 
+      추론 입력 데이터(dataframe 형태)
+      # model_info_dict: init_model() 함수의 return 값을 model_info_dict 변수로 전달
+        ## 학습 모델 객체 사용 예시       model = model_info_dict.get('model') 또는 
+                                         	  model = model_info_dict['model']
+        ## 전처리(pca) 객체 사용 예시     pca = model_info_dict.get['pca'] 또는
+                                          	  pca = model_info_dict['pca']
+                                          
+    (2) 출력: 추론 결과 딕셔너리(dictionary) 형태 
+                  result = {'inference': inference_result}
+                            
+    (3) 설명: 
+      # 전처리 객체를 사용하여 df(추론 입력 데이터)에 대한 전처리 수행
+      # 배포된 학습 모델(model)을 사용하여 df(추론 입력 데이터)에 대한 추론(예측)을 수행
+      # 추론 결과를 딕셔너리(dictionary) 형태로 리턴(return)
+
+    (4) 추가 설명: 
+      # 함수 구조는 원형대로 유지
+      # 실질적인 기능을 하는 함수를 서브모듈 함수(exec_inference_dataframe)로 정의하여 사용함
+      # 함수명                                                     서브함수명
+      # inference_dataframe(df, model_info_dict)           exec_inference(df, model_info_dict)
+      # 함수의 정상적인 동작 체크를 위해 마지막 라인(the end line)에 로그 출력 수행            
+    """
+    
+    result = exec_inference_dataframe(df, model_info_dict)
+    
+    logging.info('[hunmin log] the end line of the function [inference]')
+
+    return {**result}
+
+
+def inference_file(files, model_info_dict):
+    """
+    (1) 입력: files, model_info_dict
+      # files: 추론 하고자 하는 파일 형태의 입력 
+      # model_info_dict: init_model() 함수의 return 값을 model_info_dict 변수로 전달
+        ## 학습 모델 객체 사용 예시       model = model_info_dict.get('model') 또는 
+                                          	  model = model_info_dict['model']
+        ## 전처리(pca) 객체 사용 예시     pca = model_info_dict.get['pca'] 또는
+                                          	  pca = model_info_dict['pca']
+        
+    (2) 출력: a. 추론 결과 딕셔너리(dictionary) 형태 
+                  result = {'inference': inference_result}
+              b. 추론 결과 DownloadFile 형태
+                  result = DownloadFile(file_path=resultfilepath, file_name=filename1)
+                  result = DownloadFile(file_obj=resultfileobj, file_name=filename2)
+              c. 추론 결과 DownloadFile의 list형태
+                  result = [DownloadFile(file_path=resultfilepath, file_name=filename), 
+                            DownloadFile(file_obj=resultfileobj, file_name=filename), ...]
+              
+    (3) 설명: 
+      # 전처리 객체를 사용하여 files(추론 입력 데이터)에 대한 전처리 수행
+      # 배포된 학습 모델(model)을 사용하여 files(추론 입력 데이터)에 추론(예측)을 수행
+      # 추론 결과를 a.딕셔너리(dictionary) 형태, b.DownloadFile 형태, c.DownloadFile의 list 형태로 리턴(return)
+
+    (4) 추가 설명: 
+      # 함수 구조는 원형대로 유지
+      # 실질적인 기능을 하는 함수를 서브모듈 함수(exec_inference_files)로 정의하여 사용함
+      # 함수명                                                     서브함수명
+      # inference_files(files, model_info_dict)                exec_inference_files(files, model_info_dict)
+      # 함수의 정상적인 동작 체크를 위해 마지막 라인(the end line)에 로그 출력 수행            
+    """
+    
+    result = exec_inference_files(files, model_info_dict)
+    
+    logging.info('[hunmin log] the end line of the function [inference]')
+
+    return result
+

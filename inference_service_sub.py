@@ -1,10 +1,10 @@
 import io
 import base64
 import logging
-import meta_data.inference_utils.inference_service_sub_od as od_inference
-import meta_data.inference_utils.inference_service_sub_seg as seg_inference
-import meta_data.inference_utils.inference_service_sub_lp as lp_inference
-import meta_data.postprocess_utils.area as area
+import inference_utils.inference_service_sub_od as od_inference
+import inference_utils.inference_service_sub_seg as seg_inference
+import inference_utils.inference_service_sub_lp as lp_inference
+import postprocess_utils.area as area
 from PIL import Image
 
 

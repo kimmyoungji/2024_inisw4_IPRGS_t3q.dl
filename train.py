@@ -1,6 +1,6 @@
 import logging
 from train_sub import exec_train
-import t3qai_client as tc
+from t3qai_client import tc
 
 
 def main():
@@ -17,9 +17,12 @@ def main():
 
 
 def train():
-    exec_train()
+    try:
+        exec_train()
+    except Exception as e:
+        logging.info('error log : {}'.format(e))
     logging.info('[hunmin log] the end line of the function [train]')
 
 
-#if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()

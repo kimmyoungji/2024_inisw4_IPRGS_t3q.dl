@@ -12,7 +12,6 @@ import logging
 logger = logging.getLogger()
 logger.setLevel('INFO')
 
-
 # t3qai_client 클래스: t3qai_client 객체
 class t3qai_client:
     def train_start(self):
@@ -93,7 +92,7 @@ import io
 import pandas as pd
 
 # base64 encoded image - 00001.jpeg 
-image = Image.open('./meta_data/dataset/test/00001.jpeg')
+image = Image.open(os.path.join(T3QAI_TEST_DATA_PATH,'inference_dataset/00001.jpeg'))
 buffered = io.BytesIO()
 image.save(buffered, format="PNG")
 base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")

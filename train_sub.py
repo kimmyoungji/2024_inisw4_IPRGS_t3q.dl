@@ -3,8 +3,8 @@ from t3qai_client import T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TRAIN_MODEL_PATH, \
                             T3QAI_TRAIN_DATA_PATH, T3QAI_TEST_DATA_PATH, T3QAI_MODULE_PATH
 import os
 import logging
-import meta_data.train_utils.train_sub_lp as lp
-import meta_data.train_utils.train_sub_od as od
+import train_utils.train_sub_lp as lp
+import train_utils.train_sub_od as od
         
         
 def exec_train():
