@@ -1,16 +1,11 @@
-# Imports
-import t3qai_client as tc
-from t3qai_client import T3QAI_MODULE_PATH, T3QAI_TRAIN_MODEL_PATH, T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TEST_DATA_PATH, T3QAI_TRAIN_DATA_PATH, T3QAI_INIT_MODEL_PATH
-import torch
 import os
 import logging
-import matplotlib.pyplot as plt
 from ultralytics import YOLO
 import psutil
 
 
 # Object Detection 모델의 학습을 시작하는 코드
-def exec_train():
+def exec_train(T3QAI_TRAIN_DATA_PATH,T3QAI_TRAIN_OUTPUT_PATH,T3QAI_TRAIN_MODEL_PATH):
     logging.info('[hunmin log] the start line of the function [od.exec_train]')
     logging.info('[hunmin log] T3QAI_TRAIN_DATA_PATH : {}'.format(T3QAI_TRAIN_DATA_PATH))
     

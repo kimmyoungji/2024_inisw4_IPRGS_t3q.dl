@@ -1,5 +1,3 @@
-# inference_service_sub.py
-import os
 import io
 import base64
 import logging
@@ -10,10 +8,6 @@ from transformers import AutoImageProcessor, Mask2FormerForUniversalSegmentation
 import postprocess_utils.segmentations as seg
 from io import BytesIO
 
-# from t3qai_client import DownloadFile
-# import t3qai_client as tc
-# from t3qai_client import T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TRAIN_MODEL_PATH, T3QAI_TRAIN_DATA_PATH, \
-#                             T3QAI_TEST_DATA_PATH, T3QAI_MODULE_PATH, T3QAI_INIT_MODEL_PATH
 
 def exec_init_model():
     logging.info('[hunmin log] the start line of the function [seg.exec_init_model]')
@@ -24,6 +18,7 @@ def exec_init_model():
         "model": model,
         "processor": processor
     }
+    
     logging.info('[hunmin log] the end line of the function [seg.exec_init_model]')
     return model_info_dict
 
@@ -76,11 +71,11 @@ def exec_inference_dataframe(df, model_info_dict):
 
 # segmentations 텐서로부터, 각 세그먼트의 마스크를 생성
 def get_mask(segment_id, segmentations):
-  mask = (segmentations.numpy() == segment_id)
-  visual_mask = (mask * 255).astype(np.uint8)
-  visual_mask = Image.fromarray(visual_mask)
+    mask = (segmentations.numpy() == segment_id)
+    visual_mask = (mask * 255).astype(np.uint8)
+    visual_mask = Image.fromarray(visual_mask)
 
-  return visual_mask
+    return visual_mask
 
 
 # 마스크를 base64형태로 변환

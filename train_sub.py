@@ -1,19 +1,18 @@
-# Imports
 from t3qai_client import T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TRAIN_MODEL_PATH, \
                             T3QAI_TRAIN_DATA_PATH, T3QAI_TEST_DATA_PATH, T3QAI_MODULE_PATH
 import os
 import logging
 import train_utils.train_sub_lp as lp
 import train_utils.train_sub_od as od
-        
+
         
 def exec_train():
     logging.info('[hunmin log] the start line of the function [exec_train]')
     logging.info('[hunmin log] T3QAI_TRAIN_DATA_PATH : {}'.format(T3QAI_TRAIN_DATA_PATH))
     # Object Detection Model의 학습을 시작하는 메소드.
-    od.exec_train()
+    # od.exec_train(T3QAI_TRAIN_DATA_PATH,T3QAI_TRAIN_OUTPUT_PATH,T3QAI_TRAIN_MODEL_PATH)
     # License Plate Model의 학습을 시작하는 메소드.
-    lp.exec_train()
+    lp.exec_train(T3QAI_TRAIN_DATA_PATH,T3QAI_TRAIN_MODEL_PATH)
     logging.info('[hunmin log] the end line of the function [exec_train]')
     
     

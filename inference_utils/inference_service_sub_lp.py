@@ -1,13 +1,7 @@
-import t3qai_client as tc
-from t3qai_client import T3QAI_TRAIN_DATA_PATH, T3QAI_TRAIN_MODEL_PATH, T3QAI_INIT_MODEL_PATH
-
 import logging
 import easyocr
-import re
 import torch
-import matplotlib.pyplot as plt
 from transformers import DetrImageProcessor, DetrForObjectDetection
-import numpy as np
 from PIL import Image
 import pytorch_lightning as pl
 import io
@@ -37,7 +31,7 @@ class Detr(pl.LightningModule):
         return outputs
 
 # 모델 초기화
-def exec_init_model():
+def exec_init_model(T3QAI_INIT_MODEL_PATH):
     logging.info('[hunmin log] the start line of the function [lp.exec_init_model]')
 
     reader = easyocr.Reader(['ko'], gpu=True)

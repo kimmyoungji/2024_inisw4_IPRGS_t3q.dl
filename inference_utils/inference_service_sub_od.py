@@ -2,12 +2,10 @@ import base64
 import io
 import logging, os
 from ultralytics import YOLO
-from t3qai_client import T3QAI_INIT_MODEL_PATH, T3QAI_TRAIN_MODEL_PATH
-import t3qai_client as tc
 from PIL import Image
 import postprocess_utils.yolo_od as od
 
-def exec_init_model():
+def exec_init_model(T3QAI_INIT_MODEL_PATH):
     '''init_model에서 사용'''
     logging.info('[hunmin log] the start line of the function [od.exec_init_model]')
 

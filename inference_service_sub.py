@@ -6,17 +6,19 @@ import inference_utils.inference_service_sub_seg as seg_inference
 import inference_utils.inference_service_sub_lp as lp_inference
 import postprocess_utils.area as area
 from PIL import Image
+from t3qai_client import T3QAI_TRAIN_OUTPUT_PATH, T3QAI_TRAIN_MODEL_PATH, \
+                            T3QAI_TRAIN_DATA_PATH, T3QAI_TEST_DATA_PATH, T3QAI_MODULE_PATH, T3QAI_INIT_MODEL_PATH
 
 
 def exec_init_model():
     logging.info('[hunmin log] the start line of the function [exec_init_model]')
 
     # Object Detection Model을 로드하고 초기화하는 메서드
-    od_params = od_inference.exec_init_model()
+    od_params = od_inference.exec_init_model(T3QAI_INIT_MODEL_PATH)
     # Segmentation Model을 로드하고 초기화하는 메서드
     seg_params = seg_inference.exec_init_model()
     # License Plate Model을 로드하고 초기화하는 메서드
-    lp_params = lp_inference.exec_init_model()
+    lp_params = lp_inference.exec_init_model(T3QAI_INIT_MODEL_PATH)
     
     logging.info('[hunmin log] the end line of the function [exec_init_model]')
     return {"od_params":{ **od_params },"seg_params":{ **seg_params },"lp_params":{ **lp_params }}
