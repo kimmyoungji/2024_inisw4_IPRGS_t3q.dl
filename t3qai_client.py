@@ -94,10 +94,15 @@ import pandas as pd
 # base64 encoded image - 00001.jpeg 
 image = Image.open(os.path.join(T3QAI_TEST_DATA_PATH,'inference_dataset/00001.jpeg'))
 buffered = io.BytesIO()
-image.save(buffered, format="PNG")
 base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
 image_data = [[base64_image]]
 df = pd.DataFrame(image_data)
+
+# base64 encoded image - apple.jpg
+# data = [['base64 인코딩 문자열']]
+# df = pd.DataFrame(data)
+# print('df: ', df)
+# print('df.dtypes:', df.dtypes)
 
 # inference_file 함수 추론
 files = []
