@@ -5,7 +5,7 @@ import logging
 import train_utils.train_sub_lp as lp
 import train_utils.train_sub_od as od
 
-        
+
 def exec_train():
     logging.info('[hunmin log] the start line of the function [exec_train]')
     logging.info('[hunmin log] T3QAI_TRAIN_DATA_PATH : {}'.format(T3QAI_TRAIN_DATA_PATH))
